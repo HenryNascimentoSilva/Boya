@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'dart:io';
+import 'package:google_nav_bar/google_nav_bar.dart';
+import 'groups_screen.dart';
 import 'add_group_screen.dart';
-import 'group_model.dart';
+import 'profile_screen.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -17,177 +19,71 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: 'JetBrainsNerd',
       ),
-      home: GroupsScreen(),
+      home: const HomeScreen(),
     );
   }
 }
 
-class GroupsScreen extends StatefulWidget {
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
-  _GroupsScreenState createState() => _GroupsScreenState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _GroupsScreenState extends State<GroupsScreen> {
-  List<Group> groups = [];
+class _HomeScreenState extends State<HomeScreen> {
+  int _selectedIndex = 0;
 
-  void _navigateToAddGroupScreen() async {
-    final Group? newGroup = await Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => AddGroupScreen()),
-    );
+  final List<Widget> _pages = [
+    const GroupsScreen(),
+    const AddGroupScreen(),
+    const ProfileScreen(),
+  ];
 
-    if (newGroup != null) {
-      setState(() {
-        groups.add(newGroup);
-      });
-    }
-  }
-
-  void _removeGroup(int index) {
+  void _onItemTapped(int index) {
     setState(() {
-      groups.removeAt(index);
+      _selectedIndex = index;
     });
   }
 
-  void _navigateToGroupDetailScreen(Group group) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => GroupDetailScreen(group: group),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Grupos'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: _navigateToAddGroupScreen,
-          ),
-        ],
-      ),
-      body: ListView.builder(
-        itemCount: groups.length,
-        itemBuilder: (context, index) {
-          final group = groups[index];
-          return GestureDetector(
-            onTap: () => _navigateToGroupDetailScreen(group),
-            child: Container(
-              margin: EdgeInsets.all(8.0),
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey),
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Image.file(File(group.imagePath), height: 200, width: double.infinity, fit: BoxFit.cover),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          group.title,
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
-                        ),
-                        Text(
-                          DateFormat.yMMMd().format(group.date),
-                                                    style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: Text(
-                        'Criado por: ${group.createdBy}',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontStyle: FontStyle.italic,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
-
-class GroupDetailScreen extends StatelessWidget {
-  final Group group;
-
-  GroupDetailScreen({required this.group});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(group.title),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Image.file(File(group.imagePath), height: 200, width: double.infinity, fit: BoxFit.cover),
-            SizedBox(height: 16),
-            Text(
-              group.title,
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
-            ),
-            SizedBox(height: 8),
-            Text(
-              DateFormat.yMMMd().format(group.date),
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.grey,
-              ),
-            ),
-            SizedBox(height: 16),
-            Text(
-              group.description,
-              style: TextStyle(
-                fontSize: 16,
-              ),
-            ),
-            SizedBox(height: 16),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: Text(
-                'Criado por: ${group.createdBy}',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontStyle: FontStyle.italic,
+      body: _pages[_selectedIndex],
+      bottomNavigationBar: Container(
+        color: Colors.grey[300],
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
+            child: GNav(
+              gap: 8,
+              activeColor: Colors.black,
+              iconSize: 24,
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              duration: const Duration(milliseconds: 800),
+              tabBackgroundColor: Colors.white,
+              tabBorderRadius: 8,
+              color: Colors.grey,
+              tabs: const [
+                GButton(
+                  icon: Icons.group,
+                  text: 'Grupos',
                 ),
-              ),
+                GButton(
+                  icon: Icons.add,
+                  text: 'Adicionar',
+                ),
+                GButton(
+                  icon: Icons.person,
+                  text: 'Perfil',
+                ),
+              ],
+              selectedIndex: _selectedIndex,
+              onTabChange: _onItemTapped,
             ),
-          ],
+          ),
         ),
       ),
     );
   }
 }
-

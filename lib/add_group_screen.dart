@@ -7,6 +7,8 @@ import 'dart:io';
 import 'group_model.dart';
 
 class AddGroupScreen extends StatefulWidget {
+  const AddGroupScreen({super.key});
+
   @override
   _AddGroupScreenState createState() => _AddGroupScreenState();
 }
@@ -74,9 +76,7 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Adicionar Grupo'),
-      ),
+      backgroundColor: Colors.grey[300],
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -88,36 +88,55 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                 child: _image == null
                     ? Container(
                         height: 200,
-                        color: Colors.grey[300],
+                        color: Colors.grey,
                         child: Icon(Icons.camera_alt, size: 100, color: Colors.grey[700]),
                       )
                     : Image.file(File(_image!.path), height: 200, fit: BoxFit.cover),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Título'),
+                decoration: const InputDecoration(labelText: 'Título'),
                 validator: (value) => value!.isEmpty ? 'Por favor, insira um título' : null,
                 onSaved: (value) => _title = value,
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Descrição'),
+                decoration: const InputDecoration(labelText: 'Descrição'),
                 onSaved: (value) => _description = value,
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               ListTile(
                 title: Text(_date == null ? 'Escolha uma data' : DateFormat.yMMMd().format(_date!)),
-                trailing: Icon(Icons.calendar_today),
+                trailing: const Icon(Icons.calendar_today),
                 onTap: _pickDate,
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: _selectContacts,
-                child: Text('Adicionar Membros'),
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.black,
+                  textStyle: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)
+                  )
+                ),
+                child: const Text('Adicionar Membros'),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: _submit,
-                child: Text('Salvar Grupo'),
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.black,
+                  textStyle: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)
+                  )
+                ),
+                child: const Text('Salvar Grupo'),
               ),
             ],
           ),
@@ -130,7 +149,7 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
 class _ContactsDialog extends StatefulWidget {
   final Iterable<Contact> contacts;
 
-  _ContactsDialog({required this.contacts});
+  const _ContactsDialog({required this.contacts});
 
   @override
   __ContactsDialogState createState() => __ContactsDialogState();
@@ -142,7 +161,7 @@ class __ContactsDialogState extends State<_ContactsDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Selecione Membros'),
+      title: const Text('Selecione Membros'),
       content: SingleChildScrollView(
         child: ListBody(
           children: widget.contacts.map((contact) {
@@ -164,13 +183,13 @@ class __ContactsDialogState extends State<_ContactsDialog> {
       ),
       actions: <Widget>[
         TextButton(
-          child: Text('Cancelar'),
+          child: const Text('Cancelar'),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
         TextButton(
-          child: Text('OK'),
+          child: const Text('OK'),
           onPressed: () {
             Navigator.of(context).pop(_selectedContacts);
           },
