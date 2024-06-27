@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       title: 'Grupos App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        fontFamily: 'JetBrainsNerd',
+        fontFamily: 'Montserrat'
       ),
       home: const HomeScreen(),
     );
@@ -65,6 +65,10 @@ class _HomeScreenState extends State<HomeScreen> {
               tabBackgroundColor: Colors.white,
               tabBorderRadius: 8,
               color: Colors.grey,
+              textStyle: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+              ),
               tabs: const [
                 GButton(
                   icon: Icons.group,

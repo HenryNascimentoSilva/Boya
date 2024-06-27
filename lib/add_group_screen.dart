@@ -114,9 +114,10 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                 onPressed: _selectContacts,
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.black,
-                  textStyle: const TextStyle(
+                  textStyle: TextStyle(
+                    fontFamily: 'Montserrat',
                     fontSize: 16,
-                    fontWeight: FontWeight.bold),
+                    fontWeight: FontWeight.w700),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8)
                   )
@@ -129,8 +130,9 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.black,
                   textStyle: const TextStyle(
+                    fontFamily: 'Montserrat',
                     fontSize: 16,
-                    fontWeight: FontWeight.bold
+                    fontWeight: FontWeight.w700
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8)
