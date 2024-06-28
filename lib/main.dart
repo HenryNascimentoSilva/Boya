@@ -65,21 +65,21 @@ class _HomeScreenState extends State<HomeScreen> {
               tabBackgroundColor: Colors.white,
               tabBorderRadius: 8,
               color: Colors.grey,
-              textStyle: TextStyle(
+              textStyle: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
               ),
               tabs: const [
                 GButton(
-                  icon: Icons.group,
+                  icon: Icons.home,
                   text: 'Grupos',
                 ),
                 GButton(
-                  icon: Icons.add,
+                  icon: Icons.add_circle,
                   text: 'Adicionar',
                 ),
                 GButton(
-                  icon: Icons.person,
+                  icon: Icons.account_circle,
                   text: 'Perfil',
                 ),
               ],

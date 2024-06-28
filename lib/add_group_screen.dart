@@ -95,12 +95,14 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
               ),
               const SizedBox(height: 16),
               TextFormField(
-                decoration: const InputDecoration(labelText: 'Título'),
+                decoration: const InputDecoration(labelText: 'Título',
+                 border: OutlineInputBorder()),
                 validator: (value) => value!.isEmpty ? 'Por favor, insira um título' : null,
                 onSaved: (value) => _title = value,
               ),
+              const SizedBox(height: 16,),
               TextFormField(
-                decoration: const InputDecoration(labelText: 'Descrição'),
+                decoration: const InputDecoration(labelText: 'Descrição', border: OutlineInputBorder()),
                 onSaved: (value) => _description = value,
               ),
               const SizedBox(height: 16),
@@ -114,7 +116,7 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
                 onPressed: _selectContacts,
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.black,
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                     fontFamily: 'Montserrat',
                     fontSize: 16,
                     fontWeight: FontWeight.w700),
